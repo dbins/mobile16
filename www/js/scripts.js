@@ -152,7 +152,7 @@
 			if (isPhoneGapReady){
 				if (isConnected) {
 					PesquisarCEP(CEP);
-					initialize_mapa();
+					
 				} else {
 					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta CEP', 'OK');
 					$.mobile.changePage("#pageone");
@@ -188,6 +188,7 @@
 				if (continuar){
 					CEP = $('#cep').val();
 					$("#resultadoCEP").html('');
+					document.getElementById("map_canvas").style.display = "none";
 					endereco_formatado = "";
 					$.mobile.changePage("#posicao");
 				} else {
@@ -205,6 +206,7 @@
 		var mapDisplay, directionsService;
 
 		function initialize_mapa() {
+		  document.getElementById("map_canvas").style.display = "block";	
 		  var myOptions = {zoom: 15,mapTypeId: google.maps.MapTypeId.ROADMAP};
 		  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 		  geocoder = new google.maps.Geocoder();
@@ -271,6 +273,8 @@
 					endereco_formatado += "Cidade: " + tmp_cidade+ "<br/>";
 					endereco_formatado += "Estado: " + tmp_uf + "<br/>";
 					$("#resultadoCEP").html(endereco_formatado);
+					
+					initialize_mapa();
 					
 				});
 				
