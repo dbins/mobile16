@@ -66,7 +66,6 @@
 		var isPhoneGapReady = true;
 		var isConnected = true;
 		var isHighSpeed = false;
-		var status_bateria = "aguarde...";
 		var watchID;
 		var retorno_rastreio = "(nao houve o envio de dados)";
 		
@@ -98,7 +97,6 @@
 			// attach events for online and offline detection
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
-			document.addEventListener("batterystatus", onBatteryStatus, false);
 			
 			
 		}
@@ -142,11 +140,6 @@
 			isConnected = false;
 		}
 		
-		function onBatteryStatus(battery_info) {
-			status_bateria = battery_info.level + '%';
-		}
-		
-			
 		
 		$(document).on('pageshow', '#posicao', function(){ 
 			if (isPhoneGapReady){
@@ -183,6 +176,7 @@
 						mensagem = mensagem +  'O CEP foi digitado de forma incorreta\n';
 						continuar = false;
 					}
+					
 				}
 				
 				if (continuar){
