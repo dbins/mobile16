@@ -63,8 +63,8 @@
 		var celular_plataforma = "";
 		var celular_uuid = "";
 		var celular_versao = "";
-		var isPhoneGapReady = true;
-		var isConnected = true;
+		var isPhoneGapReady = false;
+		var isConnected = false;
 		var isHighSpeed = false;
 		var watchID;
 		var retorno_rastreio = "(nao houve o envio de dados)";
@@ -82,6 +82,10 @@
 		var tmp_logradouro  = "";
 		var tmp_endereco_completo = "";
 		var endereco_formatado = "";
+		var MapaCompleto = "NAO";
+		
+		var map, geocoder;
+		var mapDisplay, directionsService;
 		
 		// Wait for device API libraries to load
 		// device APIs are available
@@ -97,6 +101,14 @@
 			// attach events for online and offline detection
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
+			if (isConnected){
+				$.getScript("http://maps.google.com/maps/api/js?v=3.1&language=pt-BR").done(function( script, textStatus ) {
+					MapaCompleto = "SIM";
+					//console.log( textStatus );
+				}).fail(function( jqxhr, settings, exception ) {
+					//$( "div.log" ).text( "Triggered ajaxError handler." );
+				});
+			}
 			
 			
 		}
@@ -113,23 +125,19 @@
 			if (isPhoneGapReady) {
 				// as long as the connection type is not none,
 				// the device should have Internet access
+				var states = {};
+				states[navigator.connection.UNKNOWN]  = 'Unknown connection';
+				states[navigator.connection.ETHERNET] = 'Ethernet connection';
+				states[navigator.connection.WIFI]     = 'WiFi connection';
+				states[navigator.connection.CELL_2G]  = 'Cell 2G connection';
+				states[navigator.connection.CELL_3G]  = 'Cell 3G connection';
+				states[navigator.connection.CELL_4G]  = 'Cell 4G connection';
+				states[navigator.connection.NONE]     = 'No network connection';
+				var tipo_conexao = states[navigator.connection.type];
 				
-				isConnected = true;
-				isHighSpeed = true;
-				//O codigo abaixo somente funciona no dispositivo
-				//if (navigator.network.connection.type != Connection.NONE) {
-				//	isConnected = true;
-				//}
-				// determine whether this connection is high-speed
-				//switch (navigator.network.connection.type) {
-				//	case Connection.UNKNOWN:
-				//	case Connection.CELL_2G:
-				//	isHighSpeed = false;
-				//	break;
-				//	default:
-				//	isHighSpeed = true;
-				//	break;
-				//}
+				if (tipo_conexao != 'No network connection') {
+					isConnected = true;
+				}
 			}
 		}
 		
@@ -141,11 +149,20 @@
 		}
 		
 		
+		function resize_map() {
+			$('#map_canvas').height($(window).height() - $('#head').height() - $('#foot').height());
+			google.maps.event.trigger(map, "resize");
+		}
+		
 		$(document).on('pageshow', '#posicao', function(){ 
 			if (isPhoneGapReady){
 				if (isConnected) {
-					PesquisarCEP(CEP);
-					
+					if (MapaCompleto == "SIM"){
+						PesquisarCEP(CEP);
+					} else {
+						navigator.notification.alert('O aplicativo não está pronto!', alertDismissed, 'Consulta CEP', 'OK');
+						$.mobile.changePage("#pageone");
+					}
 				} else {
 					navigator.notification.alert('Não existe conexão com a Internet', alertDismissed, 'Consulta CEP', 'OK');
 					$.mobile.changePage("#pageone");
@@ -196,18 +213,22 @@
 		
 		
 		//Funcoes para montar o mapa
-		var map, geocoder;
-		var mapDisplay, directionsService;
+	
 
 		function initialize_mapa() {
 		  document.getElementById("map_canvas").style.display = "block";	
-		  var myOptions = {zoom: 15,mapTypeId: google.maps.MapTypeId.ROADMAP};
+		  var myOptions = {zoom: 16,mapTypeId: google.maps.MapTypeId.ROADMAP};
 		  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 		  geocoder = new google.maps.Geocoder();
 		  
 		  //var enderDe = 'ALAMEDA SANTOS, 1000, SAO PAULO - SP, 01418-9028';
 		  var enderDe = tmp_endereco_completo;
 		  geocoder.geocode( { 'address': enderDe, 'region' : 'BR'},trataLocs);
+		  
+		  //resize_map();
+		  $(window).resize(function () {
+          resize_map();
+		  });
 		  
 		}
 
