@@ -264,7 +264,7 @@
 		function PesquisarCEP(CEP){
 			$.ajax({
 			type: "GET",
-			url: "http://cep.republicavirtual.com.br/web_cep.php?cep=" + CEP + "&formato=xml",
+			url: "http://www.dbins.com.br/ferramentas/cep/web_cep.php?cep=" + CEP + "&formato=xml",
 			dataType: "xml",
 			success: function(data) {
 				
@@ -282,7 +282,7 @@
 					
 					
 					
-					endereco_formatado += "Tipo logradouro: " + tmp_tipo_logradouro + "<br/>";
+					//endereco_formatado += "Tipo logradouro: " + tmp_tipo_logradouro + "<br/>";
 					endereco_formatado += "Logradouro: " + tmp_logradouro+ "<br/>";
 					endereco_formatado += "Bairro: " + tmp_bairro+ "<br/>";
 					endereco_formatado += "Cidade: " + tmp_cidade+ "<br/>";
