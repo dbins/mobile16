@@ -102,7 +102,7 @@
 			document.addEventListener("online", onOnline, false);
 			document.addEventListener("offline", onOffline, false);
 			if (isConnected){
-				$.getScript("http://maps.google.com/maps/api/js?v=3.1&language=pt-BR").done(function( script, textStatus ) {
+				$.getScript("http://maps.google.com/maps/api/js?v=3.1&language=pt-BR&key=AIzaSyB-dudx6w0oDbDuAcrcMUEmD-cVc5fHVmE").done(function( script, textStatus ) {
 					MapaCompleto = "SIM";
 					//console.log( textStatus );
 				}).fail(function( jqxhr, settings, exception ) {
@@ -150,6 +150,7 @@
 		
 		
 		function resize_map() {
+			console.log('resize');
 			$('#map_canvas').height($(window).height() - $('#head').height() - $('#foot').height());
 			google.maps.event.trigger(map, "resize");
 		}
@@ -216,6 +217,7 @@
 	
 
 		function initialize_mapa() {
+			console.log('estou aqui');
 		  document.getElementById("map_canvas").style.display = "block";	
 		  var myOptions = {zoom: 16,mapTypeId: google.maps.MapTypeId.ROADMAP};
 		  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
@@ -225,7 +227,7 @@
 		  var enderDe = tmp_endereco_completo;
 		  geocoder.geocode( { 'address': enderDe, 'region' : 'BR'},trataLocs);
 		  
-		  //resize_map();
+		  resize_map();
 		  $(window).resize(function () {
           resize_map();
 		  });
