@@ -1,4 +1,5 @@
 		//http://www.javascriptlint.com/online_lint.php
+		//https://github.com/TobiasHennig/jquery-mobile-toast
 		
 		//Classe para emular o objeto de geolocalizacao
 		function Position(latitude, longitude, altitude, accurary, altitudeAccuracy, heading, speed) {
@@ -150,7 +151,7 @@
 		
 		
 		function resize_map() {
-			console.log('resize');
+			//console.log('resize');
 			$('#map_canvas').height($(window).height() - $('#head').height() - $('#foot').height());
 			google.maps.event.trigger(map, "resize");
 		}
@@ -182,7 +183,8 @@
 			$(document).on('click', '#enviar_contato', function() { // catch the form's submit event
 			
 				var continuar = true;
-				var mensagem ="Ocorreram os seguintes erros:\n";
+				//var mensagem ="Ocorreram os seguintes erros:\n";
+				var mensagem ="";
 				
 				if ($('#cep').val() == "") {
 					mensagem = mensagem +  'Digite o CEP\n';
@@ -204,7 +206,12 @@
 					endereco_formatado = "";
 					$.mobile.changePage("#posicao");
 				} else {
-					alert(mensagem);
+					//alert(mensagem);
+					$.mobile.toast({
+						message: mensagem,
+						duration: 3000,
+						position: 'bottom'
+					});
 					//navigator.notification.alert(mensagem, alertDismissed, 'Consulta CEP', 'OK');
 				}
 				return false; // cancel original event to prevent form submitting
@@ -217,7 +224,6 @@
 	
 
 		function initialize_mapa() {
-			console.log('estou aqui');
 		  document.getElementById("map_canvas").style.display = "block";	
 		  var myOptions = {zoom: 16,mapTypeId: google.maps.MapTypeId.ROADMAP};
 		  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
