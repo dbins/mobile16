@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
 		<title>Consulta CEP</title>
 		<style type="text/css">
-			.ui-page .ui-content { background-color:#CCFF00; }
+			.ui-page .ui-content { background-color:#003399; }
 			.ui-page .ui-header { background-color:#000066; }
 			.ui-page .ui-footer { background-color:#000066; color:#FFFFFF; }
 			.ui-footer {
@@ -18,15 +18,15 @@
     </head>
     <body>
         <div id="app">
-            <div data-role="page" id="pageone">
-			  <div data-role="header" data-position="fixed"  class="cabecalho">
-				&nbsp;
+            <div data-role="page" id="pageone" data-theme="b">
+			   <div data-role="header" data-position="fixed"  class="cabecalho">
+				<h1>Consulta CEP</h1>
 			  </div>
 
 			  <div data-role="main" id="main" class="ui-content">
 				<div align="center">
 				
-				<p><img src="img/sistema_cep.png" width="50%"></p>
+				<p><img src="img/mail.png" alt="Sistema CEP"></p>
 				<p>&nbsp;</p>
 				<form id="check-contato" data-ajax="false">
 				  <div class="ui-field-contain">
@@ -41,14 +41,13 @@
 			  </div>
 
 			  <div data-role="footer" data-position="fixed"  class="rodape">
-				<h1>Consulta CEP</h1>
 			  </div>
 			</div> 
 			
 			
 
 			
-			<div data-role="page" id="posicao">
+			<div data-role="page" id="posicao" data-theme="b">
 			  <div data-role="header" data-position="fixed" class="cabecalho" id="head">
 				 &nbsp;
 			  </div>
@@ -78,7 +77,7 @@
 		<script src="js/jquery.mobile.toast.min.js"></script>
 		<script src="js/scripts.js"></script>
 		<script type="text/javascript">
-        $(document).ready(onDeviceReady());
+			$(document).ready(onDeviceReady());
 		</script>
     </body>
 </html>
